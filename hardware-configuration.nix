@@ -8,7 +8,14 @@
 
   fileSystems."/" = {
     device = "/dev/disk/by-label/nixos";
-    fsType = "ext4";
+    fsType = "btrfs";
+    options = [ "subvol=@" "compress=zstd" "noatime" "discard=async" ];
+  };
+
+  fileSystems."/home" = {
+    device = "/dev/disk/by-label/nixos";
+    fsType = "btrfs";
+    options = [ "subvol=@home" "compress=zstd" "noatime" "discard=async" ];
   };
 
   fileSystems."/boot" = {
@@ -17,7 +24,7 @@
   };
 
   swapDevices = [
-    { device = "/dev/nvme0n1p3"; }
+    { device = "/dev/disk/by-label/swap"; }
   ];
 
   hardware.cpu.intel.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
