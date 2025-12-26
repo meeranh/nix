@@ -77,7 +77,7 @@
   # Git (no email/name - you set per-repo)
   programs.git = {
     enable = true;
-    extraConfig = {
+    settings = {
       init.defaultBranch = "main";
       pull.rebase = false;
       core.editor = "nvim";
