@@ -5,8 +5,13 @@
     ./hardware-configuration.nix
   ];
 
-  # Bootloader
-  boot.loader.systemd-boot.enable = true;
+  # Bootloader (GRUB for dual-boot with Windows)
+  boot.loader.grub = {
+    enable = true;
+    device = "nodev";
+    efiSupport = true;
+    useOSProber = true;
+  };
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Kernel
