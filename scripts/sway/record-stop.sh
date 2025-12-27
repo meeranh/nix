@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-killall -SIGINT wf-recorder
+pkill -INT -x wf-recorder
 dunstify "Recording stopped"
