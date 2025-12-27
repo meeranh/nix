@@ -68,6 +68,7 @@ in {
     ./foot.nix
     ./dunst.nix
     ./browser.nix
+    ./nixvim
   ];
 
   # Pass shared config to all modules via _module.args
