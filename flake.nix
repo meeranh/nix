@@ -13,6 +13,11 @@
       url = "github:0xc000022070/zen-browser-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    firefox-addons = {
+      url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, zen-browser, ... }@inputs: {
@@ -25,7 +30,11 @@
         {
           home-manager.useGlobalPkgs = true;
           home-manager.useUserPackages = true;
+          home-manager.backupFileExtension = "backup";
           home-manager.extraSpecialArgs = { inherit inputs; };
+          home-manager.sharedModules = [
+            zen-browser.homeModules.default
+          ];
           home-manager.users.neo = import ./home.nix;
         }
       ];

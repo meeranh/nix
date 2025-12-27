@@ -9,22 +9,19 @@
   programs.home-manager.enable = true;
 
   # ==========================================================================
-  # DOTFILES SYMLINKS
-  # Clone these repos first:
-  #   git clone https://github.com/meeranh/dotfiles ~/dotfiles
-  #   git clone https://github.com/meeranh/BlazeVim ~/BlazeVim
+  # DOTFILES (all config files are in this repo)
   # ==========================================================================
   xdg.configFile = {
-    "nvim".source = config.lib.file.mkOutOfStoreSymlink "/home/neo/BlazeVim";
-    "sway".source = config.lib.file.mkOutOfStoreSymlink "/home/neo/dotfiles/sway";
-    "fish".source = config.lib.file.mkOutOfStoreSymlink "/home/neo/dotfiles/fish";
-    "foot".source = config.lib.file.mkOutOfStoreSymlink "/home/neo/dotfiles/foot";
-    "wofi".source = config.lib.file.mkOutOfStoreSymlink "/home/neo/dotfiles/wofi";
-    "dunst".source = config.lib.file.mkOutOfStoreSymlink "/home/neo/dotfiles/dunst";
-    "yambar".source = config.lib.file.mkOutOfStoreSymlink "/home/neo/dotfiles/yambar";
-    "starship.toml".source = config.lib.file.mkOutOfStoreSymlink "/home/neo/dotfiles/starship.toml";
-    "scripts".source = config.lib.file.mkOutOfStoreSymlink "/home/neo/dotfiles/scripts";
-    "wallpapers".source = config.lib.file.mkOutOfStoreSymlink "/home/neo/dotfiles/wallpapers";
+    "nvim".source = ./nvim;
+    "sway".source = ./dotfiles/sway;
+    "fish".source = ./dotfiles/fish;
+    "foot".source = ./dotfiles/foot;
+    "wofi".source = ./dotfiles/wofi;
+    "dunst".source = ./dotfiles/dunst;
+    "yambar".source = ./dotfiles/yambar;
+    "starship.toml".source = ./dotfiles/starship.toml;
+    "scripts".source = ./dotfiles/scripts;
+    "wallpapers".source = ./dotfiles/wallpapers;
   };
 
   # ==========================================================================
@@ -88,5 +85,44 @@
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
+  };
+
+  # ==========================================================================
+  # ZEN BROWSER
+  # ==========================================================================
+  programs.zen-browser = {
+    enable = true;
+    policies = {
+      OverrideFirstRunPage = "";
+      OverridePostUpdatePage = "";
+      DontCheckDefaultBrowser = true;
+      ExtensionSettings = {};
+    };
+    profiles.default = {
+      name = "default";
+      isDefault = true;
+      settings = {
+        "browser.startup.homepage_override.mstone" = "ignore";
+        "privacy.sanitize.sanitizeOnShutdown" = false;
+        "privacy.clearOnShutdown.cookies" = false;
+        "privacy.clearOnShutdown.sessions" = false;
+        "extensions.autoDisableScopes" = 0;
+      };
+      extensions.packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
+        ublock-origin
+        bitwarden
+        darkreader
+        surfingkeys
+      ];
+    };
+  };
+
+  # Set Zen as default browser
+  xdg.mimeApps.defaultApplications = {
+    "text/html" = "zen.desktop";
+    "x-scheme-handler/http" = "zen.desktop";
+    "x-scheme-handler/https" = "zen.desktop";
+    "x-scheme-handler/about" = "zen.desktop";
+    "x-scheme-handler/unknown" = "zen.desktop";
   };
 }
