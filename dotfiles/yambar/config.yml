@@ -70,22 +70,27 @@ battery_module: &battery_module
         get_bat() {
           bat0=$(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null)
           bat1=$(cat /sys/class/power_supply/BAT1/capacity 2>/dev/null)
-          state=$(cat /sys/class/power_supply/BAT0/status 2>/dev/null || echo "Unknown")
+          state0=$(cat /sys/class/power_supply/BAT0/status 2>/dev/null)
+          state1=$(cat /sys/class/power_supply/BAT1/status 2>/dev/null)
           if [ -n "$bat1" ]; then
-            [ "$bat0" -lt "$bat1" ] && capacity=$bat0 || capacity=$bat1
+            capacity=$(( (bat0 + bat1) / 2 ))
             display="${bat0} · ${bat1}%"
           else
             capacity=$bat0
             display="${bat0}%"
           fi
           capacity=${capacity:-0}
-          if [ "$capacity" -ge 80 ]; then icon=" "
-          elif [ "$capacity" -ge 60 ]; then icon=" "
+          if [ "$capacity" -ge 80 ]; then icon=" "
+          elif [ "$capacity" -ge 60 ]; then icon=" "
           elif [ "$capacity" -ge 40 ]; then icon=" "
-          elif [ "$capacity" -ge 20 ]; then icon=" "
-          else icon=" "
+          elif [ "$capacity" -ge 20 ]; then icon=" "
+          else icon=" "
           fi
-          [ "$state" = "Charging" ] || [ "$state" = "Full" ] && color="charging" || color="discharging"
+          if [ "$state0" = "Charging" ] || [ "$state0" = "Full" ] || [ "$state1" = "Charging" ] || [ "$state1" = "Full" ]; then
+            color="charging"
+          else
+            color="discharging"
+          fi
           echo "icon|string|$icon"
           echo "color|string|$color"
           echo "display|string|$display"
@@ -189,20 +194,21 @@ backlight_module: &backlight_module
     args:
       - "-c"
       - |
+        BL=$(ls /sys/class/backlight/ 2>/dev/null | head -n1)
+        if [ -z "$BL" ]; then
+          echo "percent|int|0"
+          echo ""
+          sleep infinity
+        fi
         get_bl() {
-          BL=$(ls /sys/class/backlight/ 2>/dev/null | head -n1)
-          if [ -z "$BL" ]; then
-            echo "percent|int|0"
-          else
-            max=$(cat /sys/class/backlight/$BL/max_brightness)
-            cur=$(cat /sys/class/backlight/$BL/brightness)
-            pct=$((cur * 100 / max))
-            echo "percent|int|$pct"
-          fi
+          max=$(cat /sys/class/backlight/$BL/max_brightness)
+          cur=$(cat /sys/class/backlight/$BL/brightness)
+          pct=$((cur * 100 / max))
+          echo "percent|int|$pct"
           echo ""
         }
         get_bl
-        while sleep 1; do get_bl; done
+        while inotifywait -qq /sys/class/backlight/$BL/brightness; do get_bl; done
     content:
       list:
         spacing: 2
@@ -211,7 +217,7 @@ backlight_module: &backlight_module
               text: " "
               << : *color_red
               on-click:
-                left: "toggleRedLight"
+                left: "sh -c 'pgrep wlsunset && pkill wlsunset || wlsunset -T 5000 -g 0.7 &'"
                 wheel-up: "brightnessctl set +1%"
                 wheel-down: "brightnessctl set 1%-"
           - string:

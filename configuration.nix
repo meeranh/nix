@@ -181,6 +181,7 @@
     wev
     wtype
     brightnessctl
+    inotify-tools
     pamixer
     pulseaudio
     playerctl
