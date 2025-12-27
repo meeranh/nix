@@ -25,7 +25,7 @@
         ublock-origin
         bitwarden
         darkreader
-        surfingkeys
+        vimium-c
       ];
     };
   };
