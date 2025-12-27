@@ -63,6 +63,12 @@
     };
   };
 
+  # GitHub CLI with git credential helper
+  programs.gh = {
+    enable = true;
+    gitCredentialHelper.enable = true;
+  };
+
   # ==========================================================================
   # DIRENV
   # ==========================================================================

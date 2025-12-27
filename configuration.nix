@@ -216,7 +216,6 @@
 
     # Dev Tools
     git
-    gh
     lazygit
     gitleaks
     gcc
