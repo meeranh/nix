@@ -47,15 +47,15 @@ let
   # Add # prefix to color
   c = name: "#${colors.${name}}";
 
-  # Replace template placeholders in a file
-  templateFile = file: builtins.replaceStrings
-    [ "@bg@" "@bgLight@" "@fg@" "@white@" "@comment@" "@red@" "@green@"
-      "@yellow@" "@blue@" "@magenta@" "@cyan@" "@orange@" "@purple@"
-      "@font@" "@fontSize@" ]
-    [ colors.bg colors.bgLight colors.fg colors.white colors.comment
-      colors.red colors.green colors.yellow colors.blue colors.magenta
-      colors.cyan colors.orange colors.purple font.name (toString font.size.normal) ]
-    (builtins.readFile file);
+  colorPlaceholders = lib.attrNames colors;
+  colorValues = lib.attrValues colors;
+
+  templateFile = file:
+    let
+      placeholders = (map (n: "@${n}@") colorPlaceholders) ++ [ "@font@" "@fontSize@" ];
+      values = colorValues ++ [ font.name (toString font.size.normal) ];
+    in
+    builtins.replaceStrings placeholders values (builtins.readFile file);
 
 in {
   imports = [
