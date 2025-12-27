@@ -73,4 +73,9 @@
     enable = true;
     nix-direnv.enable = true;
   };
+
+  home.activation.createMediaDirs = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+    mkdir -p ~/media/screenshots
+    mkdir -p ~/media/screenrecords
+  '';
 }
