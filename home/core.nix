@@ -46,9 +46,6 @@
       videos = "$HOME/";
     };
     mimeApps.enable = true;
-
-    # Nvim config (will be replaced by nixvim later)
-    configFile."nvim".source = ../nvim;
   };
 
   # ==========================================================================
