@@ -182,10 +182,12 @@
     wtype
     brightnessctl
     inotify-tools
+    gtk-layer-shell
     pamixer
     pulseaudio
     playerctl
     libnotify
+    glib  # for gsettings
 
     # CLI Tools
     bat
@@ -222,9 +224,11 @@
     cmake
     pkg-config
     openssl
-    python3
-    python3Packages.pip
-    python3Packages.virtualenv
+    (python3.withPackages (ps: with ps; [
+      pip
+      virtualenv
+      i3ipc
+    ]))
     nodejs
     nodePackages.npm
     nodePackages.pnpm
@@ -296,6 +300,9 @@
 
   # OpenGL
   hardware.graphics.enable = true;
+
+  # Disable man cache generation (speeds up builds)
+  documentation.man.generateCaches = false;
 
   # System state version
   system.stateVersion = "24.11";
