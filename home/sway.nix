@@ -2,12 +2,20 @@
 
 let
   mod = "Mod4";
+
+  screenshot = pkgs.writeShellScript "screenshot"
+    (builtins.readFile ../scripts/sway/screenshot.sh);
+
+  recordStart = pkgs.writeShellScript "record-start"
+    (builtins.readFile ../scripts/sway/record-start.sh);
+
+  recordStop = pkgs.writeShellScript "record-stop"
+    (builtins.readFile ../scripts/sway/record-stop.sh);
+
+  spiralLayout = pkgs.writeScript "spiral-layout"
+    (builtins.readFile ../scripts/sway/spiral_layout.py);
+
 in {
-  # Spiral layout script
-  xdg.configFile."sway/scripts/spiral_layout.py" = {
-    source = ../scripts/sway/spiral_layout.py;
-    executable = true;
-  };
 
   wayland.windowManager.sway = {
     enable = true;
@@ -25,7 +33,7 @@ in {
         { command = "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY SWAYSOCK XDG_CURRENT_DESKTOP"; }
         { command = "gsettings set org.gnome.desktop.interface color-scheme 'prefer-dark'"; always = true; }
         { command = "waybar"; always = true; }
-        { command = "python3 ~/.config/sway/scripts/spiral_layout.py"; always = true; }
+        { command = "${spiralLayout}"; always = true; }
         { command = "dunst"; always = true; }
       ];
 
@@ -105,9 +113,9 @@ in {
         "${mod}+p" = "exec playerctl previous";
 
         # Screenshots
-        "Print" = "exec sh -c 'grim -g \"$(slurp)\" - | wl-copy && wl-paste -t image/png > ~/Media/screenshots/$(date +%F_%T).png && dunstify \"Screenshot captured\"'";
-        "${mod}+Print" = "exec sh -c 'dunstify \"Recording started\" && wf-recorder -f ~/Media/screenrecords/$(date +%F_%T).mp4'";
-        "${mod}+Shift+Print" = "exec sh -c 'killall wf-recorder && dunstify \"Recording stopped\"'";
+        "Print" = "exec ${screenshot}";
+        "${mod}+Print" = "exec ${recordStart}";
+        "${mod}+Shift+Print" = "exec ${recordStop}";
 
         # VM
         "${mod}+v" = "exec toggleWin start";
