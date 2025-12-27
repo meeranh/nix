@@ -60,49 +60,55 @@ anchors:
 ###############################################################################
 # 3) ANCHORS FOR MODULES
 ###############################################################################
-# 3A) BATTERY MODULE (averages BAT0 and BAT1)
+# 3A) BATTERY MODULE (combined view)
 battery_module: &battery_module
   script:
-    path: "sh"
+    path: "/run/current-system/sw/bin/sh"
     args:
       - "-c"
       - |
-        while true; do
-          bat0=$(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null || echo 0)
-          bat1=$(cat /sys/class/power_supply/BAT1/capacity 2>/dev/null || echo 0)
-          avg=$(( (bat0 + bat1) / 2 ))
+        get_bat() {
+          bat0=$(cat /sys/class/power_supply/BAT0/capacity 2>/dev/null)
+          bat1=$(cat /sys/class/power_supply/BAT1/capacity 2>/dev/null)
           state=$(cat /sys/class/power_supply/BAT0/status 2>/dev/null || echo "Unknown")
-          echo "capacity|int|$avg"
-          echo "state|string|$state"
+          if [ -n "$bat1" ]; then
+            [ "$bat0" -lt "$bat1" ] && capacity=$bat0 || capacity=$bat1
+            display="${bat0} · ${bat1}%"
+          else
+            capacity=$bat0
+            display="${bat0}%"
+          fi
+          capacity=${capacity:-0}
+          if [ "$capacity" -ge 80 ]; then icon=" "
+          elif [ "$capacity" -ge 60 ]; then icon=" "
+          elif [ "$capacity" -ge 40 ]; then icon=" "
+          elif [ "$capacity" -ge 20 ]; then icon=" "
+          else icon=" "
+          fi
+          [ "$state" = "Charging" ] || [ "$state" = "Full" ] && color="charging" || color="discharging"
+          echo "icon|string|$icon"
+          echo "color|string|$color"
+          echo "display|string|$display"
           echo ""
-          sleep 5
-        done
+        }
+        get_bat
+        while sleep 5; do get_bat; done
     content:
       list:
         spacing: 2
         items:
           - map:
               conditions:
-                '(state == "Charging") || (state == "Full")':
-                  ramp:
-                    tag: capacity
-                    items:
-                      - string: { text: " ", <<: *color_green }
-                      - string: { text: " ", <<: *color_green }
-                      - string: { text: " ", <<: *color_green }
-                      - string: { text: " ", <<: *color_green }
-                      - string: { text: " ", <<: *color_green }
+                'color == "charging"':
+                  string:
+                    text: "{icon}"
+                    foreground: A6E3A1FF
               default:
-                ramp:
-                  tag: capacity
-                  items:
-                    - string: { text: " ", <<: *color_red }
-                    - string: { text: " ", <<: *color_red }
-                    - string: { text: " ", <<: *color_red }
-                    - string: { text: " ", <<: *color_red }
-                    - string: { text: " ", <<: *color_red }
+                string:
+                  text: "{icon}"
+                  foreground: F38BA8FF
           - string:
-              text: " {capacity}%"
+              text: " {display}"
 
 # 3B) CLOCK MODULE
 clock_module: &clock_module
@@ -156,7 +162,7 @@ network_module: &network_module
       map:
         default: {empty: {}}
         conditions:
-          name =~ "^wl":
+          name == "wlan0" || name == "wlo1" || name == "wlp1s0" || name == "wlp2s0" || name == "wlp3s0":
             map:
               default:
                 list:
@@ -178,8 +184,25 @@ network_module: &network_module
 
 # 3E) BACKLIGHT MODULE
 backlight_module: &backlight_module
-  backlight:
-    name: amdgpu_bl2
+  script:
+    path: "/run/current-system/sw/bin/sh"
+    args:
+      - "-c"
+      - |
+        get_bl() {
+          BL=$(ls /sys/class/backlight/ 2>/dev/null | head -n1)
+          if [ -z "$BL" ]; then
+            echo "percent|int|0"
+          else
+            max=$(cat /sys/class/backlight/$BL/max_brightness)
+            cur=$(cat /sys/class/backlight/$BL/brightness)
+            pct=$((cur * 100 / max))
+            echo "percent|int|$pct"
+          fi
+          echo ""
+        }
+        get_bl
+        while sleep 1; do get_bl; done
     content:
       list:
         spacing: 2
@@ -193,6 +216,9 @@ backlight_module: &backlight_module
                 wheel-down: "brightnessctl set 1%-"
           - string:
               text: "{percent}%"
+              on-click:
+                wheel-up: "brightnessctl set +1%"
+                wheel-down: "brightnessctl set 1%-"
 
 # 3F) CPU MODULE (Show only total usage)
 cpu_module: &cpu_module
@@ -229,16 +255,13 @@ mem_module: &mem_module
 # 3H) SCRIPT MODULE FOR PLAYER STATUS
 player_status_module: &player_status_module
   script:
-    path: "playerctl"
+    path: "/run/current-system/sw/bin/sh"
     args:
-      - "--follow"
-      - "status"
-      - "--format"
+      - "-c"
       - |
-        my_status|string|{{status}}
-
-
-    # Keep above newlines or else the format gets messed up
+        echo "my_status|string|Stopped"
+        echo ""
+        /run/current-system/sw/bin/playerctl --follow status --format $'my_status|string|{{status}}\n'
     content:
       list:
         spacing: 5
@@ -298,16 +321,13 @@ player_status_module: &player_status_module
 # 3I) SCRIPT MODULE FOR PLAYER METADATA (Title, etc.)
 player_metadata_module: &player_metadata_module
   script:
-    path: "playerctl"
+    path: "/run/current-system/sw/bin/sh"
     args:
-      - "--follow"
-      - "metadata"
-      - "--format"
+      - "-c"
       - |
-        title|string|{{trunc(title,30)}}
-
-
-    # Keep above newlines or else the format gets messed up
+        echo "title|string|"
+        echo ""
+        /run/current-system/sw/bin/playerctl --follow metadata --format $'title|string|{{trunc(title,30)}}\n'
     content:
       list:
         spacing: 5
@@ -340,20 +360,14 @@ workspaces_module: &workspaces_module
                 - *workspace_font_settings
 
           conditions:
-            empty:
-              string:
-                text: "󰑊 "
-                << : *color_purple
             focused:
               string:
                 text: "󰮯 "
                 << : *color_yellow
-            occupied:
+            empty:
               string:
-                text: "󰊠 "
-                << :
-                  - *color_blue
-                  - *workspace_font_settings
+                text: "󰑊 "
+                << : *color_purple
 
 ###############################################################################
 # 4) THE BAR DEFINITION

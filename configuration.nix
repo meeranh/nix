@@ -182,6 +182,7 @@
     wtype
     brightnessctl
     pamixer
+    pulseaudio
     playerctl
     libnotify
 
@@ -267,7 +268,6 @@
 
     # Apps
     chromium
-    inputs.zen-browser.packages.${pkgs.system}.default
     kdePackages.kdenlive
     telegram-desktop
     vesktop
