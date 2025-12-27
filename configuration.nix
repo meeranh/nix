@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ./packages
   ];
 
   # Bootloader (GRUB for dual-boot with Windows)
@@ -172,120 +173,6 @@
   };
 
   programs.fish.enable = true;
-
-  # ==========================================================================
-  # CORE PACKAGES
-  # ==========================================================================
-  environment.systemPackages = with pkgs; [
-    # Desktop/Wayland
-    wev
-    wtype
-    brightnessctl
-    inotify-tools
-    gtk-layer-shell
-    pamixer
-    pulseaudio
-    playerctl
-    libnotify
-    glib  # for gsettings
-
-    # CLI Tools
-    bat
-    eza
-    fd
-    ripgrep
-    fzf
-    jq
-    yq
-    zoxide
-    starship
-    btop
-    htop
-    glow
-    tldr
-    trash-cli
-    tree
-    dua
-    tmux
-    yazi
-    nemo
-
-    # Editors
-    neovim
-    vim
-
-    # Dev Tools
-    git
-    lazygit
-    gitleaks
-    gcc
-    gnumake
-    cmake
-    pkg-config
-    openssl
-    (python3.withPackages (ps: with ps; [
-      pip
-      virtualenv
-      i3ipc
-    ]))
-    nodejs
-    nodePackages.npm
-    nodePackages.pnpm
-    bun
-    go
-    rustup
-    lua
-    luarocks
-
-    # System/Networking
-    curl
-    wget
-    file
-    unzip
-    p7zip
-    rar
-    nmap
-    netcat-openbsd
-    socat
-    whois
-    traceroute
-    tcpdump
-    bind
-    lftp
-    httpie
-    xh
-    hurl
-
-    # Containers
-    docker-compose
-
-    # Media
-    mpv
-    vlc
-    ffmpeg
-    imagemagick
-    yt-dlp
-
-    # Documents
-    zathura
-    typst
-
-    # Apps
-    chromium
-    kdePackages.kdenlive
-    telegram-desktop
-    vesktop
-
-    # Misc
-    acpi
-    powertop
-    rclone
-    asciinema
-    neofetch
-    cowsay
-    sl
-    claude-code
-  ];
 
   # ==========================================================================
   # MISC
