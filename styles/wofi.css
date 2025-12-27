@@ -1,0 +1,47 @@
+* {
+    font-family: @font@, sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+#window {
+    margin: 0px;
+    border: 1px solid;
+    border-color: #@fg@;
+    background-color: #@bg@;
+    color: #@fg@;
+}
+
+#input {
+    margin: 15px;
+    background-color: #@bg@;
+    border: 2px solid #@bgLight@;
+    color: #@fg@;
+}
+
+#entry:selected {
+    background-color: #@blue@;
+    border: none;
+    outline: none;
+    color: #@bg@;
+}
+
+#entry {
+    margin: 1px 15px;
+}
+
+#scroll {
+    margin-bottom: 15px;
+}
+
+#entry > box {
+    margin-left: 20px;
+}
+
+#entry image {
+    padding-right: 10px;
+}
+
+#entry:selected #text {
+    color: #@bg@;
+}
