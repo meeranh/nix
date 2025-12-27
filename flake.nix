@@ -18,6 +18,16 @@
       url = "gitlab:rycee/nur-expressions?dir=pkgs/firefox-addons";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixvim = {
+      url = "github:nix-community/nixvim";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    cozy-bear = {
+      url = "github:ebadfd/cozy-bear-nvim";
+      flake = false;
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, zen-browser, ... }@inputs: {
@@ -34,6 +44,7 @@
           home-manager.extraSpecialArgs = { inherit inputs; };
           home-manager.sharedModules = [
             zen-browser.homeModules.default
+            inputs.nixvim.homeModules.nixvim
           ];
           home-manager.users.neo = import ./home;
         }
