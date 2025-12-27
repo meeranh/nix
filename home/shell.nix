@@ -74,45 +74,11 @@
   };
 
   # ==========================================================================
-  # STARSHIP (using plain-text-symbols style)
+  # STARSHIP (plain-text-symbols preset)
   # ==========================================================================
   programs.starship = {
     enable = true;
-    settings = {
-      character = {
-        success_symbol = "[>](bold green)";
-        error_symbol = "[x](bold red)";
-        vimcmd_symbol = "[<](bold green)";
-      };
-
-      git_commit.tag_symbol = " tag ";
-      git_status = {
-        ahead = ">";
-        behind = "<";
-        diverged = "<>";
-        renamed = "r";
-        deleted = "x";
-      };
-
-      git_branch.symbol = "git ";
-      directory.read_only = " ro";
-      status.symbol = "[x](bold red) ";
-
-      # Plain text symbols for common languages
-      aws.symbol = "aws ";
-      c.symbol = "C ";
-      docker_context.symbol = "docker ";
-      golang.symbol = "go ";
-      java.symbol = "java ";
-      lua.symbol = "lua ";
-      nodejs.symbol = "node ";
-      nix_shell.symbol = "nix ";
-      package.symbol = "pkg ";
-      php.symbol = "php ";
-      python.symbol = "py ";
-      rust.symbol = "rs ";
-      typescript.symbol = "ts ";
-    };
+    settings = builtins.fromTOML (builtins.readFile ../config/starship.toml);
   };
 
   # ==========================================================================
