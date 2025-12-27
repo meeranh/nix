@@ -35,7 +35,7 @@
           home-manager.sharedModules = [
             zen-browser.homeModules.default
           ];
-          home-manager.users.neo = import ./home.nix;
+          home-manager.users.neo = import ./home;
         }
       ];
     };
