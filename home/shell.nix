@@ -66,6 +66,13 @@
       fz = "fd . | fzf --preview 'bat --style=numbers --color=always {} 2>/dev/null' | xargs -r nvim";
       caido = "caido-cli -l 0.0.0.0:8080";
       pq = "proxychains -q";
+
+      # WinApps
+      win-start = "docker compose -f ~/nix/config/windows/docker-compose.yml up -d";
+      win-stop = "docker compose -f ~/nix/config/windows/docker-compose.yml down";
+      win-restart = "docker compose -f ~/nix/config/windows/docker-compose.yml restart";
+      win-status = "docker compose -f ~/nix/config/windows/docker-compose.yml ps";
+      win-setup = "docker compose -f ~/nix/config/windows/docker-compose.yml up -d && sleep 2 && xdg-open http://localhost:8006";
     };
 
     functions = {
@@ -85,4 +92,5 @@
   # ZOXIDE
   # ==========================================================================
   programs.zoxide.enable = true;
-}
+
+  }

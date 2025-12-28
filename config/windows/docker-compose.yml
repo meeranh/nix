@@ -1,0 +1,20 @@
+services:
+  windows:
+    image: dockurr/windows
+    container_name: WinApps
+    environment:
+      VERSION: "win11"
+    devices:
+      - /dev/kvm
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - "3389:3389"
+      - "8006:8006"
+      - "4000:4000"
+    volumes:
+      - data:/storage
+    restart: "no"
+
+volumes:
+  data:
