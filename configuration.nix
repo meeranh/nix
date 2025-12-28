@@ -47,7 +47,6 @@
       wf-recorder
       wofi
       dunst
-      yambar
       foot
       imv
       wlsunset
