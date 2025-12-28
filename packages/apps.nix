@@ -2,6 +2,9 @@
 
 {
   environment.systemPackages = with pkgs; [
+    # Remote Desktop
+    freerdp
+
     # Desktop/Wayland
     wev
     wtype
@@ -33,6 +36,5 @@
     telegram-desktop
     vesktop
     remmina
-    freerdp
   ];
 }
