@@ -20,6 +20,16 @@
         "privacy.clearOnShutdown.cookies" = false;
         "privacy.clearOnShutdown.sessions" = false;
         "extensions.autoDisableScopes" = 0;
+
+        # Compact sidebar
+        "zen.view.compact" = true;
+        "zen.view.compact.enable-at-startup" = true;
+        "zen.view.compact.show-sidebar-and-toolbar-on-hover" = true;
+        "zen.view.sidebar-expanded" = false;
+        "zen.view.sidebar-expanded.max-width" = 300;
+        "zen.view.use-single-toolbar" = false;
+        "zen.workspaces.show-icon-strip" = true;
+        "zen.welcome-screen.seen" = true;
       };
       extensions.packages = with inputs.firefox-addons.packages.${pkgs.stdenv.hostPlatform.system}; [
         ublock-origin
