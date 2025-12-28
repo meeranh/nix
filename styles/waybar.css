@@ -22,7 +22,7 @@ window#waybar {
     color: #@blue@;
 }
 
-#custom-sep {
+#custom-sep, #custom-rec-sep {
     color: #@red@;
 }
 
@@ -73,4 +73,15 @@ window#waybar {
 
 #custom-battery.charging {
     color: #@green@;
+}
+
+@keyframes blink {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+#custom-rec-icon {
+    font-size: 22px;
+    padding-right: 5px;
+    animation: blink 0.5s linear infinite alternate;
 }

@@ -44,7 +44,7 @@ in {
         "pulseaudio" "custom/sep"
         "network" "custom/sep"
         "backlight" "custom/sep"
-        "clock" "custom/recording"
+        "clock" "custom/rec-sep" "custom/rec-icon"
       ];
 
       # =====================================================================
@@ -154,8 +154,15 @@ in {
         tooltip = false;
       };
 
-      "custom/recording" = {
-        exec = "${recordingScript}";
+      "custom/rec-sep" = {
+        exec = "${recordingScript} sep";
+        interval = 1;
+        tooltip = false;
+      };
+
+      "custom/rec-icon" = {
+        format = "<span color='${c "red"}'>{}</span>";
+        exec = "${recordingScript} icon";
         interval = 1;
         tooltip = false;
       };
