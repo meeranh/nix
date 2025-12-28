@@ -40,14 +40,14 @@ window#waybar {
 
 #workspaces button {
     padding: 0 2px;
-    font-size: 22px;
+    font-size: 21px;
     background: transparent;
     color: #@purple@;
     transition: none;
 }
 
 #workspaces button label {
-    font-size: 22px;
+    font-size: 21px;
     color: inherit;
 }
 
