@@ -25,6 +25,7 @@
         # Text
         markup = "full";
         format = "<b>%s</b>\\n%b";
+        show_indicators = false;
         alignment = "center";
         vertical_alignment = "center";
         ellipsize = "middle";
