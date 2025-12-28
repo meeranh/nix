@@ -12,6 +12,10 @@ let
     (builtins.replaceStrings [ "@fg@" ] [ colors.fg ]
       (builtins.readFile ../scripts/waybar/battery.sh));
 
+  recordingScript = pkgs.writeShellScript "waybar-recording"
+    (builtins.replaceStrings [ "@red@" ] [ (c "red") ]
+      (builtins.readFile ../scripts/waybar/recording.sh));
+
 in {
   programs.waybar = {
     enable = true;
@@ -40,7 +44,7 @@ in {
         "pulseaudio" "custom/sep"
         "network" "custom/sep"
         "backlight" "custom/sep"
-        "clock"
+        "clock" "custom/recording"
       ];
 
       # =====================================================================
@@ -147,6 +151,12 @@ in {
 
       clock = {
         format = "{:%I:%M %p}";
+        tooltip = false;
+      };
+
+      "custom/recording" = {
+        exec = "${recordingScript}";
+        interval = 1;
         tooltip = false;
       };
     };
