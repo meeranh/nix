@@ -27,7 +27,10 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   # Enable Flakes
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    warn-dirty = false;
+  };
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
