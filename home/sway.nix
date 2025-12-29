@@ -55,6 +55,9 @@ in {
         tap = "enabled";
         dwt = "enabled";
       };
+      input."type:pointer" = {
+        pointer_accel = "1";
+      };
 
       # =======================================================================
       # APPEARANCE
