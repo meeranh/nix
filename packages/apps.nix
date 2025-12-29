@@ -4,6 +4,7 @@
   environment.systemPackages = with pkgs; [
     # Remote Desktop
     freerdp
+    moonlight-qt
 
     # Desktop/Wayland
     wev
