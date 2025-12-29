@@ -189,8 +189,13 @@
   # KDE Connect
   programs.kdeconnect.enable = true;
 
-  # OpenGL
-  hardware.graphics.enable = true;
+  # OpenGL + Intel VAAPI
+  hardware.graphics = {
+    enable = true;
+    extraPackages = with pkgs; [
+      intel-media-driver
+    ];
+  };
 
   # Disable man cache generation (speeds up builds)
   documentation.man.generateCaches = false;
