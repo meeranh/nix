@@ -29,6 +29,7 @@
     zathura
     typst
     obsidian
+    poppler-utils
 
     # Apps
     chromium
