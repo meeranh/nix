@@ -31,6 +31,8 @@
     curl
     wget
     file
+    net-tools
+    libva-utils
     unzip
     p7zip
     rar
