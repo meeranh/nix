@@ -9,6 +9,8 @@
       scrollback.lines = 5000;
 
       colors = {
+        alpha = "0.85";
+
         # Tokyo Night
         foreground = colors.fg;
         background = colors.bg;
