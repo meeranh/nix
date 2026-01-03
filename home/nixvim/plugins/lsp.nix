@@ -35,6 +35,13 @@
 
       # Nix
       nil_ls.enable = true;
+
+      # Rust
+      rust_analyzer = {
+        enable = true;
+        installCargo = true;
+        installRustc = true;
+      };
     };
   };
 }

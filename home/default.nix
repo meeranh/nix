@@ -37,7 +37,7 @@ let
   # WALLPAPERS
   # ==========================================================================
   wallpapers = {
-    desktop = ../wallpapers/img/pinkRose.jpg;
+    desktop = ../wallpapers/img/RedForest.jpg;
     lock    = ../wallpapers/img/GtfoHD.jpg;
   };
 
