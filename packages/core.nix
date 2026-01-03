@@ -34,6 +34,7 @@
     net-tools
     libva-utils
     unzip
+    zip
     p7zip
     rar
     nmap
