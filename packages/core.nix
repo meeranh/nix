@@ -51,6 +51,8 @@
 
     # Misc
     acpi
+    lm_sensors
+    exiftool
     powertop
     rclone
     asciinema
