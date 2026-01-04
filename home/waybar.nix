@@ -32,7 +32,7 @@ in {
       spacing = 7;
 
       modules-left = [
-        "custom/arch" "custom/sep"
+        "custom/nix" "custom/sep"
         "custom/prev" "custom/play-pause" "custom/next"
         "custom/sep" "custom/title"
       ];
@@ -50,8 +50,8 @@ in {
       # =====================================================================
       # LEFT MODULES
       # =====================================================================
-      "custom/arch" = {
-        format = "󰣇 ";
+      "custom/nix" = {
+        format = "󱄅 ";
         tooltip = false;
       };
 

@@ -38,7 +38,7 @@
     p7zip
     rar
     nmap
-    netcat-openbsd
+    netcat-gnu
     socat
     whois
     traceroute

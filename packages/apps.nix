@@ -36,7 +36,6 @@
     chromium
     kdePackages.kdenlive
     telegram-desktop
-    vesktop
     remmina
   ];
 }

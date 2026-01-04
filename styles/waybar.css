@@ -18,8 +18,9 @@ window#waybar {
     padding-right: 20px;
 }
 
-#custom-arch {
-    color: #@blue@;
+#custom-nix {
+    color: #@cyan@;
+    font-size: 22px;
 }
 
 #custom-sep, #custom-rec-sep {
