@@ -15,6 +15,15 @@ let
   spiralLayout = pkgs.writeScript "spiral-layout"
     (builtins.readFile ../scripts/sway/spiral_layout.py);
 
+  workspaceSwitch = pkgs.writeShellScript "workspace-switch"
+    (builtins.readFile ../scripts/sway/workspace-switch.sh);
+
+  workspaceMove = pkgs.writeShellScript "workspace-move"
+    (builtins.readFile ../scripts/sway/workspace-move.sh);
+
+  mirrorThrow = pkgs.writeShellScript "mirror-throw"
+    (builtins.readFile ../scripts/sway/mirror-throw.sh);
+
 in {
 
   wayland.windowManager.sway = {
@@ -149,13 +158,16 @@ in {
         # Layout
         "${mod}+f" = "fullscreen";
         "${mod}+t" = "floating toggle";
+
+        # Multi-monitor: throw window to mirror workspace
+        "${mod}+Tab" = "exec ${mirrorThrow}";
       }
-      # Workspace keybindings (generated)
+      # Workspace keybindings (focus-based: laptop 1-10, HDMI 11-20)
       // lib.listToAttrs (lib.concatMap (n: let
         key = if n == 10 then "0" else toString n;
       in [
-        { name = "${mod}+${key}"; value = "workspace number ${toString n}"; }
-        { name = "${mod}+Shift+${key}"; value = "move container to workspace number ${toString n}"; }
+        { name = "${mod}+${key}"; value = "exec ${workspaceSwitch} ${toString n}"; }
+        { name = "${mod}+Shift+${key}"; value = "exec ${workspaceMove} ${toString n}"; }
       ]) (lib.range 1 10));
 
       floating.modifier = mod;
@@ -166,6 +178,30 @@ in {
     extraConfig = ''
       xwayland enable
       default_border pixel 1
+
+      # Workspace-to-output assignments
+      # Laptop (eDP-1): workspaces 1-10
+      # HDMI (HDMI-A-2): workspaces 11-20
+      workspace 1 output eDP-1
+      workspace 2 output eDP-1
+      workspace 3 output eDP-1
+      workspace 4 output eDP-1
+      workspace 5 output eDP-1
+      workspace 6 output eDP-1
+      workspace 7 output eDP-1
+      workspace 8 output eDP-1
+      workspace 9 output eDP-1
+      workspace 10 output eDP-1
+      workspace 11 output HDMI-A-2 eDP-1
+      workspace 12 output HDMI-A-2 eDP-1
+      workspace 13 output HDMI-A-2 eDP-1
+      workspace 14 output HDMI-A-2 eDP-1
+      workspace 15 output HDMI-A-2 eDP-1
+      workspace 16 output HDMI-A-2 eDP-1
+      workspace 17 output HDMI-A-2 eDP-1
+      workspace 18 output HDMI-A-2 eDP-1
+      workspace 19 output HDMI-A-2 eDP-1
+      workspace 20 output HDMI-A-2 eDP-1
     '';
   };
 }

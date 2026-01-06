@@ -16,13 +16,8 @@ let
     (builtins.replaceStrings [ "@red@" ] [ (c "red") ]
       (builtins.readFile ../scripts/waybar/recording.sh));
 
-in {
-  programs.waybar = {
-    enable = true;
-
-    style = templateFile ../styles/waybar.css;
-
-    settings.mainBar = {
+  # Base bar configuration (shared between laptop and HDMI)
+  baseBar = {
       layer = "top";
       position = "top";
       height = 35;
@@ -89,22 +84,6 @@ in {
       };
 
       # =====================================================================
-      # CENTER MODULES
-      # =====================================================================
-      "sway/workspaces" = {
-        format = "{icon}";
-        format-icons = {
-          focused = "󰮯 ";
-          persistent = "󰑊 ";
-          default = "󰊠 ";
-          urgent = "󰊠 ";
-        };
-        persistent-workspaces = lib.genAttrs
-          (map toString (lib.range 1 10))
-          (_: []);
-      };
-
-      # =====================================================================
       # RIGHT MODULES
       # =====================================================================
       cpu = {
@@ -165,6 +144,50 @@ in {
         exec = "${recordingScript} icon";
         interval = 1;
         tooltip = false;
+      };
+    };
+
+in {
+  programs.waybar = {
+    enable = true;
+
+    style = templateFile ../styles/waybar.css;
+
+    settings = {
+      # Laptop bar: workspaces 1-10
+      laptopBar = baseBar // {
+        output = "eDP-1";
+        "sway/workspaces" = {
+          all-outputs = false;
+          format = "{icon}";
+          format-icons = {
+            focused = "󰮯 ";
+            persistent = "󰑊 ";
+            default = "󰊠 ";
+            urgent = "󰊠 ";
+          };
+          persistent-workspaces = lib.genAttrs
+            (map toString (lib.range 1 10))
+            (_: []);
+        };
+      };
+
+      # HDMI bar: workspaces 11-20
+      hdmiBar = baseBar // {
+        output = "HDMI-A-2";
+        "sway/workspaces" = {
+          all-outputs = false;
+          format = "{icon}";
+          format-icons = {
+            focused = "󰮯 ";
+            persistent = "󰑊 ";
+            default = "󰊠 ";
+            urgent = "󰊠 ";
+          };
+          persistent-workspaces = lib.genAttrs
+            (map toString (lib.range 11 20))
+            (_: []);
+        };
       };
     };
   };
