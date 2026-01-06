@@ -115,8 +115,8 @@ let
       };
 
       network = {
-        format-wifi = "<span color='${c "blue"}'></span>  {essid}";
-        format-disconnected = "<span color='${c "red"}'>󰖪</span>";
+        format-wifi = "<span color='${c "blue"}'> </span> {essid}";
+        format-disconnected = "<span color='${c "red"}'>󰖪 </span>";
         tooltip = false;
       };
 
