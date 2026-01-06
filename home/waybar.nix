@@ -172,9 +172,16 @@ in {
         };
       };
 
-      # HDMI bar: workspaces 11-20
+      # HDMI bar: workspaces 11-20 (no CPU/memory for lower resolution)
       hdmiBar = baseBar // {
         output = "HDMI-A-2";
+        modules-right = [
+          "custom/battery" "custom/sep"
+          "pulseaudio" "custom/sep"
+          "network" "custom/sep"
+          "backlight" "custom/sep"
+          "clock" "custom/rec-sep" "custom/rec-icon"
+        ];
         "sway/workspaces" = {
           all-outputs = false;
           format = "{icon}";
