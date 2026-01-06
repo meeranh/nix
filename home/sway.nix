@@ -15,14 +15,8 @@ let
   spiralLayout = pkgs.writeScript "spiral-layout"
     (builtins.readFile ../scripts/sway/spiral_layout.py);
 
-  workspaceSwitch = pkgs.writeShellScript "workspace-switch"
-    (builtins.readFile ../scripts/sway/workspace-switch.sh);
-
-  workspaceMove = pkgs.writeShellScript "workspace-move"
-    (builtins.readFile ../scripts/sway/workspace-move.sh);
-
-  mirrorThrow = pkgs.writeShellScript "mirror-throw"
-    (builtins.readFile ../scripts/sway/mirror-throw.sh);
+  # Fast workspace switching (Rust binary)
+  sway-ws = pkgs.callPackage ../packages/sway-ws {};
 
 in {
 
@@ -160,14 +154,14 @@ in {
         "${mod}+t" = "floating toggle";
 
         # Multi-monitor: throw window to mirror workspace
-        "${mod}+Tab" = "exec ${mirrorThrow}";
+        "${mod}+Tab" = "exec ${sway-ws}/bin/sway-ws mirror";
       }
       # Workspace keybindings (focus-based: laptop 1-10, HDMI 11-20)
       // lib.listToAttrs (lib.concatMap (n: let
         key = if n == 10 then "0" else toString n;
       in [
-        { name = "${mod}+${key}"; value = "exec ${workspaceSwitch} ${toString n}"; }
-        { name = "${mod}+Shift+${key}"; value = "exec ${workspaceMove} ${toString n}"; }
+        { name = "${mod}+${key}"; value = "exec ${sway-ws}/bin/sway-ws switch ${toString n}"; }
+        { name = "${mod}+Shift+${key}"; value = "exec ${sway-ws}/bin/sway-ws move ${toString n}"; }
       ]) (lib.range 1 10));
 
       floating.modifier = mod;
