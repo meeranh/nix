@@ -14,6 +14,7 @@
       # NIX_LD for unpatched binaries
       set -gx NIX_LD_LIBRARY_PATH "/run/current-system/sw/share/nix-ld/lib"
       set -gx NIX_LD "/run/current-system/sw/share/nix-ld/lib/ld.so"
+      set -gx LD_LIBRARY_PATH /run/current-system/sw/share/nix-ld/lib $LD_LIBRARY_PATH
 
       # Vi keybindings
       fish_vi_key_bindings
