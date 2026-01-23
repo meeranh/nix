@@ -190,6 +190,11 @@
     zlib
   ];
 
+  environment.variables = {
+    NIX_LD_LIBRARY_PATH = "/run/current-system/sw/share/nix-ld/lib";
+    NIX_LD = "/run/current-system/sw/share/nix-ld/lib/ld.so";
+  };
+
   # Enable dconf for GTK app settings
   programs.dconf.enable = true;
 
