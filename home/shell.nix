@@ -1,6 +1,9 @@
 { config, pkgs, lib, wallpapers, ... }:
 
-{
+let
+  nixLdLib = "/run/current-system/sw/share/nix-ld/lib";
+  nixLdSo = "${nixLdLib}/ld.so";
+in {
   # ==========================================================================
   # FISH
   # ==========================================================================
@@ -12,9 +15,9 @@
       set -g fish_greeting
 
       # NIX_LD for unpatched binaries
-      set -gx NIX_LD_LIBRARY_PATH "/run/current-system/sw/share/nix-ld/lib"
-      set -gx NIX_LD "/run/current-system/sw/share/nix-ld/lib/ld.so"
-      set -gx LD_LIBRARY_PATH /run/current-system/sw/share/nix-ld/lib $LD_LIBRARY_PATH
+      set -gx NIX_LD_LIBRARY_PATH "${nixLdLib}"
+      set -gx NIX_LD "${nixLdSo}"
+      set -gx LD_LIBRARY_PATH ${nixLdLib} $LD_LIBRARY_PATH
 
       # Vi keybindings
       fish_vi_key_bindings
@@ -83,6 +86,18 @@
     functions = {
       venv = "echo 'layout python' > .envrc && direnv allow";
     };
+  };
+
+  # ==========================================================================
+  # BASH
+  # ==========================================================================
+  programs.bash = {
+    enable = true;
+    initExtra = ''
+      export NIX_LD_LIBRARY_PATH="${nixLdLib}"
+      export NIX_LD="${nixLdSo}"
+      export LD_LIBRARY_PATH="${nixLdLib}:$LD_LIBRARY_PATH"
+    '';
   };
 
   # ==========================================================================
