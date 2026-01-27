@@ -22,6 +22,7 @@
     tmux
     yazi
     nemo
+    bluetui
 
     # Editors
     neovim
