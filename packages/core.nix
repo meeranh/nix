@@ -49,6 +49,7 @@
     httpie
     xh
     hurl
+    urlencode
 
     # Misc
     acpi
