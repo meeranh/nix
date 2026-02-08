@@ -28,6 +28,8 @@
     rustup
     lua
     luarocks
+    jdk21
+    maven
 
     # Containers
     docker-compose
