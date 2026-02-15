@@ -50,6 +50,7 @@
     xh
     hurl
     urlencode
+    websocat
 
     # Misc
     acpi
