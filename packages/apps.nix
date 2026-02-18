@@ -37,5 +37,6 @@
     kdePackages.kdenlive
     telegram-desktop
     remmina
+    vesktop
   ];
 }
