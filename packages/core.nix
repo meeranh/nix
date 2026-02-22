@@ -52,6 +52,7 @@
     urlencode
     websocat
     stunnel
+    v2ray
 
     # Misc
     acpi
