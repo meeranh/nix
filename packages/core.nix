@@ -51,6 +51,7 @@
     hurl
     urlencode
     websocat
+    stunnel
 
     # Misc
     acpi
