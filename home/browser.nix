@@ -36,7 +36,6 @@
         bitwarden
         darkreader
         vimium-c
-        foxyproxy-standard
       ];
     };
   };
