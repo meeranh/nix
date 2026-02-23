@@ -53,6 +53,7 @@
     websocat
     stunnel
     v2ray
+    wireshark
 
     # Misc
     acpi
