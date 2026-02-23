@@ -170,6 +170,7 @@
       "docker"
       "audio"
       "video"
+      "wireshark"
     ];
     shell = pkgs.fish;
   };
