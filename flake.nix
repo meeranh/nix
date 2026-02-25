@@ -29,14 +29,19 @@
       flake = false;
     };
 
-};
+    claude-code = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+  };
 
-  outputs = { self, nixpkgs, home-manager, zen-browser, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, zen-browser, claude-code, ... }@inputs: {
     nixosConfigurations.NeoBox = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules = [
         ./configuration.nix
+        { nixpkgs.overlays = [ claude-code.overlays.default ]; }
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
