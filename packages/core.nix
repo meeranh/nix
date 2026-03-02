@@ -66,5 +66,6 @@
     cowsay
     sl
     claude-code
+    nur.repos.lucassabreu.clockify-cli
   ];
 }

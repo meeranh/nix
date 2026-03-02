@@ -33,15 +33,20 @@
       url = "github:sadjow/claude-code-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nur = {
+      url = "github:nix-community/NUR";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, zen-browser, claude-code, ... }@inputs: {
+  outputs = { self, nixpkgs, home-manager, zen-browser, claude-code, nur, ... }@inputs: {
     nixosConfigurations.NeoBox = nixpkgs.lib.nixosSystem {
       system = "x86_64-linux";
       specialArgs = { inherit inputs; };
       modules = [
         ./configuration.nix
-        { nixpkgs.overlays = [ claude-code.overlays.default ]; }
+        { nixpkgs.overlays = [ claude-code.overlays.default nur.overlays.default ]; }
         home-manager.nixosModules.home-manager
         {
           home-manager.useGlobalPkgs = true;
