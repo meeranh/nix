@@ -31,6 +31,9 @@
     jdk21
     maven
 
+    # Languages (cont.)
+    php
+
     # Language Servers
     pyright
     typescript-language-server
@@ -38,6 +41,7 @@
     gopls
     clang-tools
     jdt-language-server
+    nodePackages.intelephense
 
     # Containers
     docker-compose
