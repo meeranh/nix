@@ -31,6 +31,14 @@
     jdk21
     maven
 
+    # Language Servers
+    pyright
+    typescript-language-server
+    rust-analyzer
+    gopls
+    clang-tools
+    jdt-language-server
+
     # Containers
     docker-compose
   ];
