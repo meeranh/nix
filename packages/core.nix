@@ -54,6 +54,7 @@
     stunnel
     v2ray
     wireshark
+    cloudflared
 
     # Misc
     acpi
