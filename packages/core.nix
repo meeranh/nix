@@ -66,6 +66,7 @@
     neofetch
     cowsay
     sl
+    sox
     claude-code
     nur.repos.lucassabreu.clockify-cli
   ];
