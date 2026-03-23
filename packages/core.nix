@@ -55,6 +55,7 @@
     v2ray
     wireshark
     cloudflared
+    gnupg
 
     # Misc
     acpi
