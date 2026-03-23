@@ -45,5 +45,6 @@
 
     # Containers
     docker-compose
+    kubectl
   ];
 }
