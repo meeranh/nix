@@ -64,7 +64,7 @@
     powertop
     rclone
     asciinema
-    neofetch
+    fastfetch
     cowsay
     sl
     sox

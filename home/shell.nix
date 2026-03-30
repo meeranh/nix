@@ -53,7 +53,7 @@ in {
       pdf = "zathura";
       img = "imv";
       bt = "bluetui";
-      nf = "neofetch";
+      nf = "fastfetch";
       c = "clear";
 
       # Navigation
