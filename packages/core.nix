@@ -68,6 +68,7 @@
     cowsay
     sl
     sox
+    ventoy-full
     claude-code
     nur.repos.lucassabreu.clockify-cli
   ];
